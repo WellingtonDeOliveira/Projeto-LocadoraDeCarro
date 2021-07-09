@@ -2,6 +2,7 @@ package br.com.nitrox.layouts;
 
 import java.sql.*;
 import br.com.nitrox.dal.ModuloConexao;
+import java.security.MessageDigest;
 import javax.swing.JOptionPane;
 
 public class TelaEditarUser extends javax.swing.JInternalFrame {
@@ -21,12 +22,24 @@ public class TelaEditarUser extends javax.swing.JInternalFrame {
     private void adicionar() {
         // Fazendo teste se o login já existe no banco de dados
         String sql = "insert into tbusuario(iduser,usuario,login,senha,perfil) values(?,?,?,?,?)";
+        String senha = new String(txtUserEditSen.getPassword());
         try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte messageDigest[] = md.digest(senha.getBytes("UTF-8"));
+            
+            StringBuilder sb = new StringBuilder();
+            
+            for(byte b : messageDigest){
+                sb.append(String.format("%02X", 0xFF & b));
+            }
+            
+            String senhaHash = sb.toString();
+            
             pst = conexao.prepareStatement(sql);
             pst.setString(1,txtUserIdEdit.getText());
             pst.setString(2, txtUserEditNome.getText());
             pst.setString(3, txtUserEditLog.getText());
-            pst.setString(4, txtUserEditSen.getText());
+            pst.setString(4, senhaHash);
             pst.setString(5, jcUserEditCamp.getSelectedItem().toString());
             // Validação dos campos obrigatórios 
             if ((txtUserEditNome.getText().isEmpty()) || (txtUserEditLog.getText().isEmpty()) 
@@ -46,6 +59,7 @@ public class TelaEditarUser extends javax.swing.JInternalFrame {
                 }
             }
         } catch (Exception e) {
+            System.out.println(e);
             JOptionPane.showMessageDialog(null, e);
         }
     }
@@ -59,7 +73,6 @@ public class TelaEditarUser extends javax.swing.JInternalFrame {
             if (rs.next()) {
                 txtUserEditNome.setText(rs.getString(2));
                 txtUserEditLog.setText(rs.getString(3));
-                txtUserEditSen.setText(rs.getString(4));
                 jcUserEditCamp.setSelectedItem(rs.getString(5));
             } else {
                 JOptionPane.showMessageDialog(null, "Usuário não cadastrado");
@@ -75,11 +88,22 @@ public class TelaEditarUser extends javax.swing.JInternalFrame {
     
     private void alterar(){
         String sql="update tbusuario set usuario=?,login=?,senha=?,perfil=? where iduser=?";
+        String senha = new String(txtUserEditSen.getPassword());
         try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte messageDigest[] = md.digest(senha.getBytes("UTF-8"));
+            
+            StringBuilder sb = new StringBuilder();
+            
+            for(byte b : messageDigest){
+                sb.append(String.format("%02X", 0xFF & b));
+            }
+            
+            String senhaHash = sb.toString();
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtUserEditNome.getText());
             pst.setString(2, txtUserEditLog.getText());
-            pst.setString(3, txtUserEditSen.getText());
+            pst.setString(3, senhaHash);
             pst.setString(4, jcUserEditCamp.getSelectedItem().toString());
             pst.setString(5, txtUserIdEdit.getText());
             // Validação dos campos obrigatórios 

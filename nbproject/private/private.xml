@@ -4,7 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/55859/Documents/NetBeansProjects/Nitro/src/br/com/nitrox/layouts/TelaPrincipal.java</file>
+            <file>file:/C:/Users/55859/Documents/NetBeansProjects/Nitro/src/br/com/nitrox/layouts/TelaEditarCar.java</file>
+            <file>file:/C:/Users/55859/Documents/NetBeansProjects/Nitro/src/br/com/nitrox/layouts/TelaEditarUser.java</file>
+            <file>file:/C:/Users/55859/Documents/NetBeansProjects/Nitro/src/br/com/nitrox/layouts/TelaOrcamento.java</file>
             <file>file:/C:/Users/55859/Documents/NetBeansProjects/Nitro/src/br/com/nitrox/layouts/TelaLogin.java</file>
+            <file>file:/C:/Users/55859/Documents/NetBeansProjects/Nitro/src/br/com/nitrox/layouts/TelaEditarCli.java</file>
         </group>
     </open-files>
 </project-private>

@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.sql.*;
 import br.com.nitrox.dal.ModuloConexao;
 import java.awt.Color;
+import java.security.MessageDigest;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,12 +23,25 @@ public class TelaLogin extends javax.swing.JFrame {
 
      public void logar() {
         String sql = "select * from tbusuario where login=? and senha=?";
+        String senha = new String(txtSenha.getPassword());
         try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte messageDigest[] = md.digest(senha.getBytes("UTF-8"));
+            
+            StringBuilder sb = new StringBuilder();
+            
+            for(byte b : messageDigest){
+                sb.append(String.format("%02X", 0xFF & b));
+            }
+            
+            String senhaHash = sb.toString();
+            System.out.println(senhaHash);
+            
             // As linhas abaixo preparam a consulta ao banco em relação ao input
             // O ? substituido pelo o input do usuario
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtUsuario.getText());
-            pst.setString(2, new String(txtSenha.getPassword()));
+            pst.setString(2, senhaHash);
             // A linha abaixo executa a consulta (Query)
             rs = pst.executeQuery();
             if (rs.next()) {
