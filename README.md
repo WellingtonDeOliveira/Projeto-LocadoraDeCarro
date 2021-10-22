@@ -1,6 +1,6 @@
-<h1 align="center">Restaurante Lechef</h1>
+<h1 align="center">Locadora de Carros</h1>
 
-<p align="center">Esse é um projeto de finalização de curso, onde mostro minhas habilidades em programação WEB</p>
+<p align="center">Esse é um projeto de finalização de modulo do meu curso programação, onde mostro minhas habilidades em programação no Netbeans</p>
 
 <p align="center">
  <a href="#caracteristicas">Características</a> •
